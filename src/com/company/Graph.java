@@ -1,33 +1,36 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.company;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.List;
-
+/**
+ *
+ *
+ */
 public class Graph {
 
-    Node [][] AdjacencyMatrix = new Node[][];
+    private final int numberOfNodes;
 
-    public void calcullateVeight (String name){
 
+    public Graph(int number)
+    {
+        this.numberOfNodes = number;
     }
 
-    public void addNode(int id){
-        Node a = new Node(id);
-
-
-        a.setWeight();
-
+    public int getnumberOfNodes()
+    {
+        return numberOfNodes;
     }
 
-    public void addNode(int id, String name){
-        Node a = new Node(id);
+    //mapa przechowujaca liste sasiedztwa dla tworzonego grafu
+    Map <Integer, ArrayList<Integer>> nodes = new HashMap <>();
 
-
-    }
-
-    public List<Node>  FindPath(int src, int dst){
-
-
-    }
-
+    //lista zawierajaca informacje przechowywane w poszczegolnych wezlach grafu
+    ArrayList<String> interiorOfNodes = new ArrayList<>();
 }
