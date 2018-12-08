@@ -21,6 +21,7 @@ public class Graph {
     public Graph(int number)
     {
         this.numberOfNodes = number;
+        interiorOfNodes.ensureCapacity(number);
     }
 
     public int getnumberOfNodes()
