@@ -1,10 +1,10 @@
 package com.company;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +16,6 @@ public class Path implements  pathInterface{
 
         Graph graph = null;
 
-        Boolean isFirstLineRead = false;
 
         int numberOfNodes = 0;
         String temp;
@@ -33,16 +32,11 @@ public class Path implements  pathInterface{
             while(in.hasNextLine()) {
 
                 //Reading
-                if (numberOfNodes <= 0 && !isFirstLineRead) {
+                if (numberOfNodes <= 0) {
 
                     temp = in.nextLine();
-                    isFirstLineRead = true;
 
                     numberOfNodes = Integer.parseInt(temp, 2);
-
-                    System.out.println(numberOfNodes);
-
-                    System.out.println(temp);
 
 
                     if (numberOfNodes > 0) {
@@ -54,10 +48,10 @@ public class Path implements  pathInterface{
                     }
 
                     continue;
+                } else {
+                    ;
+                    //TODO: Should be ERROR
                 }
-
-
-
 
                 //Reading the nodes connections
                 for (int nodeIndex = 0; nodeIndex < numberOfNodes; nodeIndex++) {
@@ -109,15 +103,11 @@ public class Path implements  pathInterface{
 
                         temp = in.nextLine();
 
-
                         if (graph == null) {
-
                             throw new IllegalStateException("Graph is null, this means, that file input is incorrect");
                         } else {
 
                            decompressedText = decompress(graph, nodeIndex, temp);
-
-
                         }
 
                     } else {
@@ -126,14 +116,7 @@ public class Path implements  pathInterface{
                     }
                 }
 
-
-
-
-
             }
-
-
-
 
         }catch (FileNotFoundException e) {
 
@@ -213,15 +196,70 @@ public class Path implements  pathInterface{
     }
 
 
-
-
         @Override
     public String findPath(Graph Graph, int beginingNode, int destinationNode) {
-        return null;
+
+        Dijkstra dijkstra = new Dijkstra(Graph);
+
+        ArrayList<Map.Entry<Integer, Integer>> wholeTree = dijkstra.findPath(beginingNode);
+
+        ArrayList<Integer> reverseNodePath = getPath(wholeTree, beginingNode, destinationNode);
+
+        String pathString = "";
+
+        for(int i = reverseNodePath.size() -1; i >= 0; i-- ) {
+
+            pathString += reverseNodePath.get(i) + ",";
+
+        }
+
+
+        return pathString;
     }
 
     @Override
     public String getPathString(Graph Graph, int beginingNode, int destinationNode) {
-        return null;
+
+        Dijkstra dijkstra = new Dijkstra(Graph);
+
+        ArrayList<Map.Entry<Integer, Integer>> wholeTree = dijkstra.findPath(beginingNode);
+
+        ArrayList<Integer> reverseNodePath = getPath(wholeTree, beginingNode, destinationNode);
+
+        String pathString = "";
+
+
+        for(int i = reverseNodePath.size() -1; i >= 0; i-- ) {
+
+            pathString += Graph.interiorOfNodes.get(reverseNodePath.get(i)) + ",";
+
+        }
+
+
+        return pathString;
+
     }
+
+    private ArrayList<Integer> getPath(ArrayList<Map.Entry<Integer, Integer>> tree, int source, int destination) {
+
+        if(tree.size() < source || tree.size() < destination) {
+
+            throw new IllegalArgumentException("You are asking of node id, which does not exists");
+        }
+
+        ArrayList<Integer> reversePath = new ArrayList<>();
+
+        int findingElement = destination;
+
+        while((findingElement != source)) {
+
+            reversePath.add(findingElement);
+            findingElement = tree.get(findingElement).getValue();
+        }
+
+        reversePath.add(source);
+
+        return reversePath;
+    }
+
 }
