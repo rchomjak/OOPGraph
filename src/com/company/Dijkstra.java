@@ -4,13 +4,8 @@ import java.util.*;
 
 public class Dijkstra {
 
-    Graph graph;
+    private Graph graph;
 
-    //key, distance
-    ArrayList<Map.Entry<Integer, Integer>> distance;
-    ArrayList<Map.Entry<Integer, Integer>> previous;
-
-    ArrayList<Boolean> visited;
 
 
     //key, distance
@@ -31,7 +26,7 @@ public class Dijkstra {
     }
 
 
-    private ArrayList<Integer> getNeighbors(int nodeId) {
+    private List<Integer> getNeighbors(int nodeId) {
 
         return this.graph.nodes.get(nodeId);
     }
@@ -43,11 +38,11 @@ public class Dijkstra {
 
     }
 
-    public ArrayList<Map.Entry<Integer, Integer>> findPath(int source) {
-
-        distance = new ArrayList<>(Collections.nCopies(this.graph.getnumberOfNodes(), new AbstractMap.SimpleEntry<Integer, Integer>(-1,-1)));
-        previous = new ArrayList<>(Collections.nCopies(this.graph.getnumberOfNodes(), new AbstractMap.SimpleEntry<Integer, Integer>(-1,-1)));
-        visited = new ArrayList<>(Collections.nCopies(this.graph.getnumberOfNodes(), false));
+    public List<Map.Entry<Integer, Integer>> findPath(int source) {
+        //key, distance
+        ArrayList<Map.Entry<Integer, Integer>> distance = new ArrayList<>(Collections.nCopies(this.graph.getnumberOfNodes(), new AbstractMap.SimpleEntry<Integer, Integer>(-1,-1)));
+        ArrayList<Map.Entry<Integer, Integer>> previous = new ArrayList<>(Collections.nCopies(this.graph.getnumberOfNodes(), new AbstractMap.SimpleEntry<Integer, Integer>(-1,-1)));
+        ArrayList<Boolean> visited = new ArrayList<>(Collections.nCopies(this.graph.getnumberOfNodes(), false));
 
 
         int alt = 0;
@@ -67,7 +62,6 @@ public class Dijkstra {
         }
 
         while (!pq.isEmpty()) {
-            pq.comparator();
             Map.Entry<Integer, Integer> uNode = pq.poll();
 
             //node is already removed/visited
@@ -86,16 +80,14 @@ public class Dijkstra {
                 if (alt < distance.get(neighId).getValue()) {
 
 
-                    //IMPORTANT: needs removes and insert, because, the  java PQ does not have method for rehash heap in the PQ
+                    //IMPORTANT: needs remove and insert, because, the  java PQ does not have method for rehashing the heap in the PQ
                     Map.Entry<Integer, Integer> element =  distance.get(neighId);
-
                     pq.remove(element);
                     element.setValue(alt);
                     pq.add(element);
 
 
                     Map.Entry<Integer, Integer > p = previous.get(neighId);
-
                     p.setValue(uNode.getKey());
                 }
 

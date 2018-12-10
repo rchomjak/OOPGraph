@@ -4,6 +4,7 @@ package com.company;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -201,7 +202,7 @@ public class Path implements  pathInterface{
 
         Dijkstra dijkstra = new Dijkstra(Graph);
 
-        ArrayList<Map.Entry<Integer, Integer>> wholeTree = dijkstra.findPath(beginingNode);
+        List<Map.Entry<Integer, Integer>> wholeTree = dijkstra.findPath(beginingNode);
 
         ArrayList<Integer> reverseNodePath = getPath(wholeTree, beginingNode, destinationNode);
 
@@ -222,7 +223,7 @@ public class Path implements  pathInterface{
 
         Dijkstra dijkstra = new Dijkstra(Graph);
 
-        ArrayList<Map.Entry<Integer, Integer>> wholeTree = dijkstra.findPath(beginingNode);
+        List<Map.Entry<Integer, Integer>> wholeTree = dijkstra.findPath(beginingNode);
 
         ArrayList<Integer> reverseNodePath = getPath(wholeTree, beginingNode, destinationNode);
 
@@ -240,7 +241,7 @@ public class Path implements  pathInterface{
 
     }
 
-    private ArrayList<Integer> getPath(ArrayList<Map.Entry<Integer, Integer>> tree, int source, int destination) {
+    private ArrayList<Integer> getPath(List<Map.Entry<Integer, Integer>> tree, int source, int destination) {
 
         if(tree.size() < source || tree.size() < destination) {
 
